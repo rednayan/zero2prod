@@ -1,3 +1,3 @@
 fn main() {
-    println!("Hello, world!");
+    println!("testting the CI pipeline");
 }
