@@ -45,7 +45,7 @@ jobs:
     container:
       image: xd009642/tarpaulin
       options: --security-opt seccomp=unconfined
-    steps:
+    steps: 
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Generate code coverage
