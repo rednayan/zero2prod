@@ -1,10 +1,17 @@
+use once_cell::sync::Lazy;
 use sqlx::{Connection, Executor, PgConnection, PgPool};
 use std::net::TcpListener;
 use uuid::Uuid;
 use zero2prod::{
     configuration::{get_configuration, DatabaseSettings},
     startup::run,
+    telemetry,
 };
+
+static TRACING: Lazy<()> = Lazy::new(|| {
+    let subscriber = telemetry::get_subscriber("test".into(), "debug".into());
+    telemetry::init_subscriber(subscriber);
+});
 
 pub struct TestApp {
     pub address: String,
@@ -92,6 +99,7 @@ async fn spawn_app() -> TestApp {
 }
 
 pub async fn configure_database(config: &DatabaseSettings) -> PgPool {
+    Lazy::force(&TRACING);
     let mut connection = PgConnection::connect(&config.connection_string_without_db())
         .await
         .expect("Failed to connect to Postgres");
