@@ -65,6 +65,9 @@ jobs:
 
       - name: Install postgresql-client
         run: sudo apt-get update && sudo apt-get install postgresql-client -y
+      
+      - name: some dope shit
+        run: ed $'s/\r$//' ./scripts/init_db.sh > ./scripts/init_db.Unix.sh
 
       - name: Migrate database
         run: SKIP_DOCKER=true ./scripts/init_db.sh
